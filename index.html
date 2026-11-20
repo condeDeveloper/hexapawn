@@ -1,0 +1,78 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Hexapawn: a maquina de caixas de fosforo</title>
+<meta name="description" content="O hexapawn de Gardner resolvido em 29 retangulos, e a maquina de caixas de fosforo dele medida em 2000 sessoes: 19 caixas, 17 contas ruins, e nunca uma conta boa jogada fora.">
+<link rel="icon" href="data:,">
+<link rel="stylesheet" href="css/estilo.css">
+</head>
+<body>
+
+<header>
+  <h1>Hexapawn</h1>
+  <p>Três peões de cada lado num tabuleiro 3×3. O peão anda uma casa para a frente ou come na diagonal. Ganha quem chega na última linha ou deixa o outro sem lance. Martin Gardner inventou o jogo em 1962 para ensinar uma máquina feita de caixas de fósforo a jogar.</p>
+</header>
+
+<main>
+
+<section>
+  <h2>Jogue</h2>
+  <div class="painel">
+    <div class="linha">
+      <select id="tamanho" aria-label="tabuleiro">
+        <option value="3x3" selected>3 × 3, o de Gardner</option>
+        <option value="4x3">4 colunas × 3 linhas</option>
+        <option value="3x4">3 colunas × 4 linhas</option>
+        <option value="4x4">4 × 4</option>
+        <option value="5x3">5 colunas × 3 linhas</option>
+      </select>
+      <select id="oponente" aria-label="oponente">
+        <option value="her" selected>contra a HER, que aprende</option>
+        <option value="motor">contra o motor perfeito</option>
+      </select>
+    </div>
+    <div class="linha">
+      <button id="reiniciar" type="button">Nova partida</button>
+      <button id="esquecer" type="button">Esvaziar a HER</button>
+      <span id="placar" class="fraco"></span>
+    </div>
+    <div id="tabuleiro" class="grade"></div>
+    <p id="estado"></p>
+    <p id="caixas" class="fraco"></p>
+  </div>
+</section>
+
+<section>
+  <h2>A máquina de caixas de fósforo</h2>
+  <p>A HER joga com as pretas, que são o lado que ganha no 3×3. Ela tem uma caixa para cada posição em que joga, juntando as que são espelho uma da outra, e cada caixa começa com uma conta para cada lance possível. Na vez dela sorteia-se uma conta. Quando ela perde, a conta do último lance dela é jogada fora. Quando ganha, nada muda.</p>
+
+  <h3>São 19 caixas, e só 17 contas ruins</h3>
+  <p>A varredura de todas as posições alcançáveis dá <strong>19 caixas</strong>: 2 no segundo lance, 10 no quarto, 7 no sexto. Sem juntar os espelhos seriam 37. As 19 caixas têm <strong>47 contas</strong>, e só <strong>17</strong> delas são de lances que perdem.</p>
+
+  <h3>A regra nunca joga fora uma conta boa</h3>
+  <p>Em 2.000 sessões de 200 partidas, 22.278 contas foram jogadas fora, e o motor conferiu cada uma: <strong>nenhuma</strong> era de um lance que ganha. Isso tem uma consequência que dá para enunciar sem simular nada: a HER nunca perde mais de 17 vezes na vida. O máximo medido foi 16, contra um adversário que joga ao acaso.</p>
+
+  <h3>O adversário esperto ensina mais rápido</h3>
+  <p>Contra um adversário que aproveita todo erro, a HER perdeu exatamente 9 ou 10 vezes em todas as 1.000 sementes (10 em 938 delas), e visitou só 14 das 19 caixas. Contra o acaso perdeu de 8 a 16 vezes, com média 12,34. Mas o aprendizado não tem prazo: nos dois casos houve semente em que a última derrota caiu na partida 200.</p>
+</section>
+
+<section>
+  <h2>E nos outros retângulos</h2>
+  <p>O motor resolve 29 retângulos de até 26 casas. Com duas colunas, as pretas ganham sempre. Com três linhas, as pretas ganham exatamente nas larguras 2, 3 e 6. A partida mais longa é a do 3×8, que as pretas ganham em 22 lances. Um juiz sem memória, que não importa nada do motor, concorda em 15 tabuleiros, e no 4×4 precisa de 303 vezes mais nós.</p>
+</section>
+
+<section>
+  <h2>Como rodar</h2>
+  <pre><code>npm test                              # a suite inteira
+npm run medir                         # as tabelas leves
+node ferramentas/medidor.js maquina   # a HER em 2000 sessoes</code></pre>
+  <p>O código está em <a href="https://github.com/condeDeveloper/hexapawn">github.com/condeDeveloper/hexapawn</a>.</p>
+</section>
+
+</main>
+
+<script type="module" src="js/app.js"></script>
+</body>
+</html>
