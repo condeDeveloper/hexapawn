@@ -1,0 +1,13 @@
+{
+  "name": "hexapawn",
+  "version": "1.0.0",
+  "description": "O hexapawn de Gardner resolvido em 29 retangulos, e a maquina de caixas de fosforo medida em 2000 sessoes",
+  "type": "module",
+  "private": false,
+  "license": "MIT",
+  "engines": { "node": ">=20" },
+  "scripts": {
+    "test": "node --test testes/*.test.js",
+    "medir": "node ferramentas/medidor.js"
+  }
+}
