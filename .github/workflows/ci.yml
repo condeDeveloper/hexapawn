@@ -1,0 +1,53 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+jobs:
+  testes:
+    name: testes (${{ matrix.so }}, node ${{ matrix.node }})
+    runs-on: ${{ matrix.so }}
+    strategy:
+      fail-fast: false
+      matrix:
+        so: [ubuntu-latest, windows-latest, macos-latest]
+        node: ['20', '22', '24']
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node }}
+      # O `shell: bash` nao e enfeite: no PowerShell do runner o glob
+      # `testes/*.test.js` chega ao node como texto literal.
+      - name: as regras, o motor, o juiz e a maquina
+        shell: bash
+        run: node --test testes/nucleo.test.js
+      - name: os numeros do README
+        shell: bash
+        run: node --test testes/medidas.test.js
+      - name: os tres pesados e o juiz no 3x6
+        shell: bash
+        run: node --test testes/pesados.test.js
+
+  medidas:
+    name: tabelas do README
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: quem ganha cada retangulo
+        run: node ferramentas/medidor.js tabela
+      - name: os pesados
+        run: node ferramentas/medidor.js pesados
+      - name: as caixas de fosforo
+        run: node ferramentas/medidor.js caixas
+      - name: a maquina em 2000 sessoes
+        run: node ferramentas/medidor.js maquina
+      - name: o juiz sem memoria
+        run: node ferramentas/medidor.js juiz
